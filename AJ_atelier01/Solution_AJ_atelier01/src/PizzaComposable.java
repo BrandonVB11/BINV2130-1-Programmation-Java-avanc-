@@ -1,24 +1,23 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
 
 public class PizzaComposable extends Pizza{
-    private Client createur;
     private LocalDateTime date;
+    private Client createur;
 
-    public PizzaComposable(Client createur) {
-        super(createur.getTelephone(), createur.getNom()+ createur.getPrenom(),new ArrayList<>());
-        this.createur = createur;
+    public PizzaComposable(Client createur){
+        super("Pizza composable du client " + createur.getNumero(), "Pizza de " + createur.getNom()+" " + createur.getPrenom());
         this.date = LocalDateTime.now();
-    }
-
-    public Client getCreateur() {
-        return createur;
+        this.createur = createur;
     }
 
     public LocalDateTime getDate() {
         return date;
+    }
+
+    public Client getCreateur() {
+        return createur;
     }
 
     @Override

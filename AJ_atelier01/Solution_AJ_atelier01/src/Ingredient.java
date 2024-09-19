@@ -6,19 +6,19 @@ public class Ingredient {
 
     public Ingredient(String nom, double prix) {
         this.nom = nom;
-        this.prix = prix;
+        setPrix(prix);
     }
 
     public String getNom() {
         return nom;
     }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
-    }
-
     public double getPrix() {
         return prix;
+    }
+
+    public void setPrix(double prix) {
+        this.prix = prix;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Ingredient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(nom, that.nom);
+        return nom.equals(that.nom);
     }
 
     @Override
