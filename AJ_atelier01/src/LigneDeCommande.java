@@ -28,4 +28,7 @@ public class LigneDeCommande {
     public double calculerPrixTotal(){
             return prixUnitaire*quantite;
     }
+    public String toString() {
+        return  quantite + " " + pizza.getTitre() + "  à " + prixUnitaire ;
+    }
 }

@@ -1,4 +1,6 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -77,5 +79,13 @@ public class Commande {
             sb.append(l.getPizza().getTitre()).append(" x").append(l.getQuantite()).append(" : ").append(l.calculerPrixTotal()).append("\n");
         }
         return sb.toString();
+    }
+
+    public String toString() {
+        DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+        String encours = "";
+        if (client.getCommandeEnCours() == this)
+            encours = " (en cours)";
+        return "Commande n° " + numero + encours + " du " + client + "\ndate : " + formater.format(date);
     }
 }
