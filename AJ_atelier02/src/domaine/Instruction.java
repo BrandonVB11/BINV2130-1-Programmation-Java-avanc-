@@ -30,9 +30,6 @@ public class Instruction {
 
     @Override
     public String toString() {
-        return "Instruction{" +
-                "description='" + description + '\'' +
-                ", dureeEnMinutes=" + dureeEnMinutes +
-                '}';
+        return String.format("(%02d:%02d) ", dureeEnMinutes.toHours(), dureeEnMinutes.toMinutesPart()) + description;
     }
 }

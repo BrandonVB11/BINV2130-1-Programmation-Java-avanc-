@@ -1,9 +1,7 @@
 package domaine;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Plat {
     private String nom;
@@ -11,8 +9,8 @@ public class Plat {
     private Difficulte niveauDeDifficulte;
     private Cout cout;
     private Duration dureeEnMinutes;
-    private List<Instruction> list;
-    private Set<IngredientQuantifie> set;
+    private List<Instruction> recette;
+    private Set<IngredientQuantifie> ingredients;
 
     public Plat(String nom,int nbrPersonnes,Difficulte niveau,Cout cout){
         this.nom = nom;
@@ -21,9 +19,8 @@ public class Plat {
         this.cout = cout;
         this.dureeEnMinutes = Duration.ZERO;
         //initialisation de la liste d'instruction
-        list = new ArrayList<>();
-        //initialisation de la liste d'ingredient
-
+        recette = new ArrayList<>();
+        ingredients = new HashSet<>();
     }
 
     public String getNom() {
@@ -51,17 +48,17 @@ public class Plat {
         if(position <= 0){
             throw new IllegalArgumentException("Position passée en parametre est inferieur ou egal à 0");
         }
-        if(position > list.size()){
+        if(position > recette.size()){
             throw new IllegalArgumentException("Position passée en parametre est superieur à la taille de la liste");
         }
         this.dureeEnMinutes = this.dureeEnMinutes.plus(instruction.getDureeEnMinutes());
-        list.add(position,instruction);
+        recette.add(position-1,instruction);
     }
 
     public void ajouterInstruction (Instruction instruction){
         //ajoute l’instruction en dernier.
         this.dureeEnMinutes = this.dureeEnMinutes.plus(instruction.getDureeEnMinutes());
-        list.addLast(instruction);
+        recette.addLast(instruction);
     }
 
     public Instruction remplacerInstruction (int position, Instruction instruction){
@@ -70,9 +67,9 @@ public class Plat {
         if(position <= 0){
             throw new IllegalArgumentException("Position passée en parametre est inferieur ou egal à 0");
         }
-        Instruction remplace = list.get(position);
+        Instruction remplace = recette.get(position-1);
         this.dureeEnMinutes = this.dureeEnMinutes.minus(remplace.getDureeEnMinutes()).plus(instruction.getDureeEnMinutes());
-        list.set(position,instruction);
+        recette.set(position-1,instruction);
         return remplace;
     }
 
@@ -82,16 +79,27 @@ public class Plat {
         if(position <= 0){
             throw new IllegalArgumentException("Position passée en parametre est inferieur ou egal à 0");
         }
-        Instruction supprime = list.get(position);
+        Instruction supprime = recette.get(position-1);
         this.dureeEnMinutes = this.dureeEnMinutes.minus(supprime.getDureeEnMinutes());
-        list.remove(position);
+        recette.remove(position-1);
         return supprime;
     }
 
     public List<Instruction> instructions(){
         // fournit une collection non-modifiable contenant les instructions du plat
         //considéré.
-        return List.copyOf(list);
+        return List.copyOf(recette);
+    }
+
+    public SortedSet<Ingredient> ingredients(){
+        // renvoie l’ensemble des ingrédients, utilisés dans le plat, triés par nom
+        //d’ingrédient.
+        SortedSet<Ingredient> sortedSet;
+        sortedSet = new TreeSet<>();
+        for(IngredientQuantifie ing : ingredients){
+            sortedSet.add(ing.getIngredient());
+        }
+        return sortedSet;
     }
 
 
@@ -103,7 +111,7 @@ public class Plat {
         res += "Difficulté : " + this.niveauDeDifficulte + "\n";
         res += "Coût : " + this.cout + "\n";
         res += "Durée : " + hms + " \n\n";
-        /*res += "Ingrédients :\n";
+        res += "Ingrédients :\n";
         for (IngredientQuantifie ing : this.ingredients) {
             res += ing + "\n";
         }
@@ -111,7 +119,7 @@ public class Plat {
         res += "\n";
         for (Instruction instruction : this.recette) {
             res += i++ + ". " + instruction + "\n";
-        }*/
+        }
         return res;
     }
 
