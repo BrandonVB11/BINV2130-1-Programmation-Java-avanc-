@@ -56,19 +56,24 @@ public class ExercicesOptional {
     }
 
 
-
-
-
-
-
-
     private void optional1(List<Transaction> transactions) {
         System.out.println("optional1");
+        var s = transactions
+                .stream()
+                .map(Transaction::getValue)
+                .reduce(Integer::max)
+                .orElse(-1);
+        System.out.println(s);
 
     }
 
     private void optional2(List<Transaction> transactions) {
         System.out.println("optional2");
+        var s = transactions
+                .stream()
+                .reduce((t1, t2) -> t1.getValue() < t2.getValue() ? t1 : t2)
+                .orElse(null);
+        System.out.println(s);
 
     }
 

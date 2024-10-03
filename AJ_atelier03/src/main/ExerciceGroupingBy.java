@@ -56,17 +56,36 @@ public class ExerciceGroupingBy {
 
     private void groupBy1() {
         System.out.println("GroupBy1");
-
+        Map<Trader,List<Transaction>> td = transactions
+                .stream()
+                .collect(Collectors.groupingBy(Transaction::getTrader));
+        System.out.println(td);
     }
 
     private void groupBy2() {
         System.out.println("GroupBy2");
-
+        Map<Trader,Long> tl = transactions
+                .stream()
+                .collect(Collectors.groupingBy(Transaction::getTrader,Collectors.counting()));
+        System.out.println(tl);
     }
 
 
     private void groupBy3() {
         System.out.println("GroupBy3");
-
+        Map<TransactionsLevel,List<Transaction>> tt = transactions
+                .stream()
+                .collect(Collectors.groupingBy(t -> {
+                    if (t.getValue() >= 1000) {
+                        return TransactionsLevel.VERY_HI;
+                    } else if (t.getValue() < 1000 && t.getValue() >= 800) {
+                        return TransactionsLevel.HI;
+                    } else if (t.getValue() < 800 && t.getValue() >= 600) {
+                        return TransactionsLevel.ME;
+                    } else {
+                        return TransactionsLevel.LO;
+                    }
+                }));
+        System.out.println(tt);
     }
 }
