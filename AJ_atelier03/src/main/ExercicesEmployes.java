@@ -18,10 +18,12 @@ public class ExercicesEmployes {
         employes.add(new Employe(Genre.HOMME, 187, "Raphaël"));
         employes.add(new Employe(Genre.FEMME, 120, "Antoinette"));
 
-        List<Employe> listDesHommes = employes
-                .stream()
-                .filter(e -> e.getGenre() == Genre.HOMME)
-                .collect(Collectors.toList());
+        List<Employe> listDesHommes = new ArrayList<>();
+        for (Employe e : employes) {
+            if (e.getGenre() == Genre.HOMME) {
+                listDesHommes.add(e);
+            }
+        }
 
         System.out.println(listDesHommes);
 
